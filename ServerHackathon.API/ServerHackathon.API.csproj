@@ -17,4 +17,8 @@
     <ProjectReference Include="..\ServerHackathon.DataAccess\ServerHackathon.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="..\.dockerignore" />
+  </ItemGroup>
+
 </Project>

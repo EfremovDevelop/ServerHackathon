@@ -10,6 +10,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["ServerHackathon.API/ServerHackathon.API.csproj", "ServerHackathon.API/"]
+COPY ["ServerHackathon.DataAccess/ServerHackathon.DataAccess.csproj", "ServerHackathon.DataAccess/"]
 RUN dotnet restore "./ServerHackathon.API/ServerHackathon.API.csproj"
 COPY . .
 WORKDIR "/src/ServerHackathon.API"
