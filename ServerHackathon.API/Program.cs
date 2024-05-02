@@ -1,5 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using ServerHackathon.Application.Services;
+using ServerHackathon.Core.Interfaces.Auth;
+using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.DataAccess;
+using ServerHackathon.DataAccess.Repositories;
+using ServerHackathon.Infrastructure.Auth;
 using System.Text.Json.Serialization;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -33,6 +38,15 @@ service.AddControllers().AddJsonOptions(x =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 service.AddEndpointsApiExplorer();
 service.AddSwaggerGen();
+
+//Services
+service.AddScoped<UsersService>();
+
+//Auth
+builder.Services.AddScoped<IPasswordHash, PasswordHash>();
+
+//Repositories
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 var app = builder.Build();
 
