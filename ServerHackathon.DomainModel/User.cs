@@ -12,7 +12,9 @@ public class User
 
     public int Points { get; set; } = 0;
 
-    public string Email { get; set; }
+    public string? Email { get; set; }
+
+    public string Login {  get; set; }
 
     public string Password { get; set; }
 

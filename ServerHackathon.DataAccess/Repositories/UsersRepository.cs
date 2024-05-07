@@ -19,11 +19,11 @@ public class UsersRepository : IUsersRepository
         return user.Id;
     }
 
-    public async Task<User?> GetByEmail(string email)
+    public async Task<User?> GetByLogin(string login)
     {
         var user = await _context.User
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Email == email);
+            .FirstOrDefaultAsync(u => u.Login == login);
 
         return user;
     }

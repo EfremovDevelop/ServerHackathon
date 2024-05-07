@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using ServerHackathon.API.Extensions;
 using ServerHackathon.Application.Services;
 using ServerHackathon.Core.Interfaces.Auth;
 using ServerHackathon.Core.Interfaces.Repositories;
@@ -13,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var service = builder.Services;
 var config = builder.Configuration;
+
+service.Configure<JwtOptions>(config.GetSection(nameof(JwtOptions)));
 
 service.AddCors(options =>
 {
@@ -42,11 +46,16 @@ service.AddSwaggerGen();
 //Services
 service.AddScoped<UsersService>();
 
-//Auth
-builder.Services.AddScoped<IPasswordHash, PasswordHash>();
+service.AddHttpContextAccessor();
+
+// Auth
+service.AddScoped<IJwtProvider, JwtProvider>();
+service.AddScoped<IPasswordHash, PasswordHash>();
 
 //Repositories
-builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+service.AddScoped<IUsersRepository, UsersRepository>();
+
+service.AddApiAuthentication(service.BuildServiceProvider().GetRequiredService<IOptions<JwtOptions>>());
 
 var app = builder.Build();
 
@@ -65,6 +74,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors(MyAllowSpecificOrigins);

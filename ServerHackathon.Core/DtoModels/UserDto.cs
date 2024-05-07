@@ -14,7 +14,9 @@ public class UserDto
 
     public int Points { get; set; }
 
-    public string Email { get; set; }
+    public string? Email { get; set; }
+
+    public string Login {  get; set; }
 
     public string Password { get; set; }
 
@@ -32,6 +34,7 @@ public class UserDto
         Phone = user.Phone;
         Points = user.Points;
         Email = user.Email;
+        Login = user.Login;
         Password = user.Password;
         GenderId = user.GenderId;
         ProfileImageUrl = user.ProfileImageUrl;
