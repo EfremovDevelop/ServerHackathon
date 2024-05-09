@@ -10,7 +10,7 @@ public class UsersService
     private readonly IPasswordHash _passwordHash;
     private readonly IUsersRepository _usersRepository;
     private readonly IJwtProvider _jwtProvider;
-
+    
     public UsersService(IPasswordHash passwordHash, IUsersRepository usersRepository, IJwtProvider jwtProvider)
     {
         _passwordHash = passwordHash;
@@ -36,8 +36,10 @@ public class UsersService
             Name = userDto.Name,
             Surname = userDto.Surname,
             Phone = userDto.Phone,
-            Points = userDto.Points,
+            Points = 0,
             GenderId = userDto.GenderId,
+            UniversityId = userDto.UniversityId,
+            ProfileImageUrl = userDto.ProfileImageUrl,
         };
 
         return await _usersRepository.Create(user);

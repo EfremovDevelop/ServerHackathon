@@ -5,6 +5,7 @@ using ServerHackathon.Application.Services;
 using ServerHackathon.Core.Interfaces.Auth;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.DataAccess;
+using ServerHackathon.DataAccess.Data;
 using ServerHackathon.DataAccess.Repositories;
 using ServerHackathon.Infrastructure.Auth;
 using System.Text.Json.Serialization;
@@ -24,7 +25,7 @@ service.AddCors(options =>
                       policy =>
                       {
                           policy
-                            .SetIsOriginAllowed(origin => true) // Разрешить все источники
+                            .SetIsOriginAllowed(origin => true) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                             .AllowAnyMethod()
                             .AllowAnyHeader()
                             .AllowCredentials();
@@ -62,7 +63,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-    dataContext.Database.Migrate();
+    await DataContextSeed.SeedAsync(dataContext);
 }
 
 // Configure the HTTP request pipeline.
