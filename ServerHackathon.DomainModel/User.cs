@@ -24,22 +24,13 @@ public class User
 
     public string? ProfileImageUrl { get; set; }
 
-    public int UniversityId { get; set; }
+    public int? UniversityId { get; set; }
 
-    public virtual University University { get; set; }
+    public virtual University? University { get; set; }
 
-    public string Card {  get; set; }
+    public string? Card {  get; set; }
+
+    public virtual ICollection<Event> Events { get; set; } = [];
+
+    public virtual ICollection<Booking> Bookings { get; set; } = [];
 }
-
-//public class Event
-//{
-//    public Guid Id { get; set; }
-
-//    public string Name { get; set; }
-
-//    public string? Thumbnail { get; set; }
-
-//    public string? Description { get; set; }
-
-//    public DateTime Date {  get; set; }
-//}

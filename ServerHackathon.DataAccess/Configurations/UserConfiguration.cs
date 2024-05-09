@@ -17,5 +17,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasOne(u => u.University)
             .WithMany(u => u.Users)
             .HasForeignKey(u => u.UniversityId);
+
+        builder.HasMany(u => u.Events)
+            .WithMany(p => p.Users)
+            .UsingEntity<EventParticipant>(
+                r => r.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId),
+                l => l.HasOne<User>().WithMany().HasForeignKey(r => r.UserId));
     }
 }

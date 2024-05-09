@@ -5,20 +5,20 @@ using ServerHackathon.Core.Enums;
 
 namespace ServerHackathon.DataAccess.Configurations;
 
-public class GenderConfiguration : IEntityTypeConfiguration<Gender>
+public class EventStatusConfiguration : IEntityTypeConfiguration<EventStatus>
 {
-    public void Configure(EntityTypeBuilder<Gender> builder)
+    public void Configure(EntityTypeBuilder<EventStatus> builder)
     {
         builder.HasKey(g => g.Id);
 
-        var genders = Enum
-            .GetValues<GenderEnum>()
-            .Select(g => new Gender
+        var statuses = Enum
+            .GetValues<EventStatusEnum>()
+            .Select(g => new EventStatus
             {
                 Id = (int)g,
                 Name = g.ToString()
             });
 
-        builder.HasData(genders);
+        builder.HasData(statuses);
     }
 }
