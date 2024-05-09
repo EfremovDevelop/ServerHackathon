@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ServerHackathon.DomainModel\ServerHackathon.DomainModel.csproj" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
