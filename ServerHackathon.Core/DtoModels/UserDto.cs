@@ -1,5 +1,4 @@
 ﻿using ServerHackathon.DomainModel;
-using Microsoft.AspNetCore.Http;
 
 namespace ServerHackathon.Core.DtoModels;
 
