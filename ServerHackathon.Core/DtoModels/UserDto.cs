@@ -22,9 +22,9 @@ public class UserDto
 
     public int GenderId { get; set; }
 
-    public string ProfileImageUrl { get; set; }
+    public string? ProfileImageUrl { get; set; }
     public int UniversityId { get; set; }
-    public string Card {  get; set; }
+    public string? Card {  get; set; }
 
     public UserDto() { }
 

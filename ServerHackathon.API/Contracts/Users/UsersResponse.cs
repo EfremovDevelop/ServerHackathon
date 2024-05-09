@@ -2,8 +2,12 @@
 
 namespace ServerHackathon.API.Contracts.Users
 {
-    public record UsersResponse(Guid? Id, string Name, string Surname, string Login, int GenderId,
-        string? Phone, string? Email, string ProfileImageUrl);
-    public record UsersTokenResponse(Guid? Id, string Name, string Surname, string Login, int GenderId,
+    public record UsersResponse(Guid Id, string Name, string Surname, string Login, int GenderId,
+        string? Phone, string? Email, string? ProfileImageUrl);
+
+    public record UsersLoginResponse(Guid Id, string Name, string Surname, string Login, int GenderId,
+        string? Phone, string? Email);
+
+    public record UsersTokenResponse(Guid Id, string Name, string Surname, string Login, int GenderId,
         string? Phone, string? Email, string token);
 }

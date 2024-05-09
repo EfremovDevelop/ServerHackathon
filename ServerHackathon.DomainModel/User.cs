@@ -24,9 +24,9 @@ public class User
 
     public string? ProfileImageUrl { get; set; }
 
-    public int? UniversityId { get; set; }
+    public int UniversityId { get; set; }
 
-    public virtual University? University { get; set; }
+    public virtual University University { get; set; }
 
     public string? Card {  get; set; }
 
