@@ -13,5 +13,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasOne(u => u.Gender)
                .WithMany(g => g.Users)
                .HasForeignKey(u => u.GenderId);
+
+        builder.HasOne(u => u.University)
+            .WithMany(u => u.Users)
+            .HasForeignKey(u => u.UniversityId);
     }
 }

@@ -12,7 +12,7 @@ public class UserDto
 
     public string? Phone { get; set; }
 
-    public int Points { get; set; }
+    public int? Points { get; set; }
 
     public string? Email { get; set; }
 

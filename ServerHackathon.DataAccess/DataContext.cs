@@ -10,6 +10,7 @@ public class DataContext(
 {
     public virtual DbSet<User> User { get; set; }
     public virtual DbSet<Gender> Gender { get; set; }
+    public virtual DbSet<University> University { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
