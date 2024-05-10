@@ -36,7 +36,6 @@ public class UsersService
             Name = userDto.Name,
             Surname = userDto.Surname,
             Phone = userDto.Phone,
-            Points = 0,
             GenderId = userDto.GenderId,
             UniversityId = userDto.UniversityId,
             ProfileImageUrl = userDto.ProfileImageUrl,

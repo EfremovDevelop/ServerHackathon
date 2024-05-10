@@ -12,8 +12,8 @@ using ServerHackathon.DataAccess;
 namespace ServerHackathon.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240509205816_change_db1")]
-    partial class change_db1
+    [Migration("20240510090917_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,8 +40,8 @@ namespace ServerHackathon.DataAccess.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("PlaceId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("PlaceId")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("Status")
                         .HasColumnType("boolean");
@@ -74,8 +74,8 @@ namespace ServerHackathon.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PlaceId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("PlaceId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("integer");
@@ -175,9 +175,11 @@ namespace ServerHackathon.DataAccess.Migrations
 
             modelBuilder.Entity("ServerHackathon.DomainModel.Place", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Adress")
                         .IsRequired()
@@ -247,8 +249,8 @@ namespace ServerHackathon.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("PlaceId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("PlaceId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("PlaceTypeId")
                         .HasColumnType("integer");
@@ -318,9 +320,6 @@ namespace ServerHackathon.DataAccess.Migrations
 
                     b.Property<string>("Phone")
                         .HasColumnType("text");
-
-                    b.Property<int?>("Points")
-                        .HasColumnType("integer");
 
                     b.Property<string>("ProfileImageUrl")
                         .HasColumnType("text");

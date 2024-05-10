@@ -10,8 +10,4 @@
     <ProjectReference Include="..\ServerHackathon.DomainModel\ServerHackathon.DomainModel.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\Services\" />
-  </ItemGroup>
-
 </Project>

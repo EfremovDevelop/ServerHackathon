@@ -12,8 +12,6 @@ public class UserDto
 
     public string? Phone { get; set; }
 
-    public int? Points { get; set; }
-
     public string? Email { get; set; }
 
     public string Login {  get; set; }
@@ -34,7 +32,6 @@ public class UserDto
         Name = user.Name;
         Surname = user.Surname;
         Phone = user.Phone;
-        Points = user.Points;
         Email = user.Email;
         Login = user.Login;
         Password = user.Password;

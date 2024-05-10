@@ -45,7 +45,7 @@ public class UsersController : BaseController
 
     [HttpPut("update")]
     [Authorize]
-    public async Task<IResult> AddAvatar([FromForm] UsersUpdateRequest userRequest)
+    public async Task<IResult> UpdateUser([FromForm] UsersUpdateRequest userRequest)
     {
         //Avatar Validation
         string profileImageUrl = "";

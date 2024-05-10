@@ -12,7 +12,7 @@ public class Event
 
     public DateTime Date { get; set; }
 
-    public Guid PlaceId { get; set; }
+    public int PlaceId { get; set; }
 
     public virtual Place Place { get; set; }
 

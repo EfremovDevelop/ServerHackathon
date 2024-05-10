@@ -4,6 +4,7 @@ using ServerHackathon.API.Extensions;
 using ServerHackathon.Application.Services;
 using ServerHackathon.Core.Interfaces.Auth;
 using ServerHackathon.Core.Interfaces.Repositories;
+using ServerHackathon.Core.Interfaces.Services;
 using ServerHackathon.DataAccess;
 using ServerHackathon.DataAccess.Data;
 using ServerHackathon.DataAccess.Repositories;
@@ -46,6 +47,7 @@ service.AddSwaggerGen();
 
 //Services
 service.AddScoped<UsersService>();
+service.AddScoped<IUniversitiesService, UniversitiesService>();
 
 service.AddHttpContextAccessor();
 
@@ -55,6 +57,7 @@ service.AddScoped<IPasswordHash, PasswordHash>();
 
 //Repositories
 service.AddScoped<IUsersRepository, UsersRepository>();
+service.AddScoped<IUniversitiesRepository, UniversitiesRepository>();
 
 service.AddApiAuthentication(service.BuildServiceProvider().GetRequiredService<IOptions<JwtOptions>>());
 

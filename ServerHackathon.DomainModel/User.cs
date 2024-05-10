@@ -12,8 +12,6 @@ public class User
 
     public string? Email { get; set; }
 
-    public int? Points { get; set; } = 0;
-
     public string Login {  get; set; }
 
     public string Password { get; set; }

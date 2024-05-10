@@ -73,7 +73,8 @@ namespace ServerHackathon.DataAccess.Migrations
                 name: "Place",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Adress = table.Column<string>(type: "text", nullable: false),
                     Location = table.Column<string>(type: "text", nullable: false),
@@ -102,12 +103,11 @@ namespace ServerHackathon.DataAccess.Migrations
                     Surname = table.Column<string>(type: "text", nullable: false),
                     Phone = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: true),
-                    Points = table.Column<int>(type: "integer", nullable: true),
                     Login = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
                     GenderId = table.Column<int>(type: "integer", nullable: false),
                     ProfileImageUrl = table.Column<string>(type: "text", nullable: true),
-                    UniversityId = table.Column<int>(type: "integer", nullable: true),
+                    UniversityId = table.Column<int>(type: "integer", nullable: false),
                     Card = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -123,7 +123,8 @@ namespace ServerHackathon.DataAccess.Migrations
                         name: "FK_User_University_UniversityId",
                         column: x => x.UniversityId,
                         principalTable: "University",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,7 +136,7 @@ namespace ServerHackathon.DataAccess.Migrations
                     Thumbnail = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    PlaceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PlaceId = table.Column<int>(type: "integer", nullable: false),
                     StatusId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -161,7 +162,7 @@ namespace ServerHackathon.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PlaceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PlaceId = table.Column<int>(type: "integer", nullable: false),
                     PlaceTypeId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -191,7 +192,7 @@ namespace ServerHackathon.DataAccess.Migrations
                     CheckOut = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    PlaceId = table.Column<Guid>(type: "uuid", nullable: false)
+                    PlaceId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

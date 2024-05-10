@@ -16,7 +16,7 @@ public class Booking
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-    public Guid PlaceId { get; set; }
+    public int PlaceId { get; set; }
 
     public virtual Place Place { get; set; }
 }
