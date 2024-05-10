@@ -3,7 +3,6 @@ using ServerHackathon.Core.Enums;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.Core.Interfaces.Services;
 using ServerHackathon.DomainModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ServerHackathon.Application.Services;
 
@@ -19,7 +18,7 @@ public class EventsService : IEventsService
     public async Task<Guid> Create(EventDto newEvent)
     {
         bool isEventExists = await _eventsRepository.CheckEventExists(newEvent.Place.Id, newEvent.Date);
-
+        // нужно добавить проверку на пересечение с бронированием коворкингов имеющих тип ивента
         if (isEventExists)
         {
             throw new InvalidOperationException("Мероприятие для указанного места и даты уже существует.");

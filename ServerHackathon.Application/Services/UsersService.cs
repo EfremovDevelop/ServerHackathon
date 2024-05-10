@@ -36,8 +36,8 @@ public class UsersService
             Name = userDto.Name,
             Surname = userDto.Surname,
             Phone = userDto.Phone,
-            GenderId = userDto.GenderId,
-            UniversityId = userDto.UniversityId,
+            GenderId = userDto.Gender.Id,
+            UniversityId = userDto.University.Id,
             ProfileImageUrl = userDto.ProfileImageUrl,
         };
 
@@ -58,9 +58,9 @@ public class UsersService
         return token;
     }
 
-    public async Task<UserDto?> GetUserByLogin(string email)
+    public async Task<UserDto?> GetUserByLogin(string login)
     {
-        var user = await _usersRepository.GetByLogin(email);
+        var user = await _usersRepository.GetByLogin(login);
 
         if (user is null)
             return null;

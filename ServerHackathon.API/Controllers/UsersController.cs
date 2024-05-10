@@ -32,8 +32,8 @@ public class UsersController : BaseController
         userDto.Surname = usersRequest.Surname;
         userDto.Login = usersRequest.Login;
         userDto.Password = usersRequest.Password;
-        userDto.GenderId = usersRequest.GenderId;
-        userDto.UniversityId = usersRequest.UniversityId;
+        userDto.Gender = new GenderDto { Id = usersRequest.GenderId };
+        userDto.University = new UniversityDto { Id = usersRequest.UniversityId };
 
         var id = await _usersService.Register(userDto);
         if (id == null)
@@ -78,7 +78,7 @@ public class UsersController : BaseController
     }
 
 
-    [HttpGet]
+    [HttpGet("getbylogin")]
     public async Task<ActionResult<UsersResponse>> GetUserByLogin([FromQuery] string login)
     {
         if (string.IsNullOrEmpty(login))
@@ -95,10 +95,7 @@ public class UsersController : BaseController
         var baseUri = $"{Request.Scheme}://{Request.Host}";
         var path = baseUri+user.ProfileImageUrl?.Replace("\\", "/");
 
-        var response = new UsersLoginResponse(user.Id, user.Name, user.Surname, user.Login,
-            user.GenderId, user.Phone, user.Email);
-
-        return Ok(response);
+        return Ok(user);
     }
 
     [HttpPost("login")]
@@ -109,7 +106,8 @@ public class UsersController : BaseController
         var user = await _usersService.GetUserByLogin(request.Login);
 
         var response = new UsersTokenResponse(user.Id, user.Name, user.Surname,
-            user.Login, user.GenderId, user.Phone, user.Email, token);
+            user.Login, user.Gender, user.Phone, user.Email, user.University, user.Events,
+            user.Bookings, user.ProfileImageUrl, user.Card, token);
 
         return Ok(response);
     }

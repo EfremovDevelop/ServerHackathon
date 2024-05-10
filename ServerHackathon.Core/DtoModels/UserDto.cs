@@ -18,10 +18,16 @@ public class UserDto
 
     public string Password { get; set; }
 
-    public int GenderId { get; set; }
+    public GenderDto Gender { get; set; }
 
     public string? ProfileImageUrl { get; set; }
-    public int UniversityId { get; set; }
+
+    public UniversityDto University { get; set; }
+
+    public ICollection<EventDto> Events { get; set; }
+
+    public ICollection<BookingDto> Bookings { get; set; }
+
     public string? Card {  get; set; }
 
     public UserDto() { }
@@ -35,7 +41,10 @@ public class UserDto
         Email = user.Email;
         Login = user.Login;
         Password = user.Password;
-        GenderId = user.GenderId;
+        Gender = new GenderDto(user.Gender);
         ProfileImageUrl = user.ProfileImageUrl;
+        University = new UniversityDto(user.University);
+        Events = user.Events.Select(e => new EventDto(e)).ToList();
+        Bookings = user.Bookings.Select(b => new BookingDto(b)).ToList();
     }
 }

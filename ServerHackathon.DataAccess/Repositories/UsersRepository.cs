@@ -22,6 +22,10 @@ public class UsersRepository : IUsersRepository
     public async Task<User?> GetByLogin(string login)
     {
         var user = await _context.User
+            .Include(g => g.Gender)
+            .Include(u => u.University)
+            .Include(e => e.Events)
+            .Include(b => b.Bookings)
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Login == login);
 
