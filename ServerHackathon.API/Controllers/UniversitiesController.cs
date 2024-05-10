@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ServerHackathon.API.Contracts.Universities;
+﻿using Microsoft.AspNetCore.Mvc;
 using ServerHackathon.Core.DtoModels;
 using ServerHackathon.Core.Interfaces.Services;
 
@@ -19,9 +17,7 @@ namespace ServerHackathon.API.Controllers
         public async Task<ActionResult<UniversityDto>> GetListUniversity()
         {
             var universities = await _universitiesService.GetUniversities();
-
-            var response = universities.Select(u => new UniversitiesForRegisterResponse(u.Id, u.Initials));
-            return Ok(response);
+            return Ok(universities);
         }
     }
 }

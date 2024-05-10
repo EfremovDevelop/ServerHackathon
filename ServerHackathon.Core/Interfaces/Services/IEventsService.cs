@@ -1,9 +1,10 @@
-﻿using ServerHackathon.DomainModel;
+﻿using ServerHackathon.Core.DtoModels;
+using ServerHackathon.DomainModel;
 
 namespace ServerHackathon.Core.Interfaces.Services;
 
 public interface IEventsService
 {
-    Task<Guid> Create(Event newEvent);
-    Task<List<Event>> GetEvents(int? universityId = null, DateTime? startDate = null);
+    Task<Guid> Create(EventDto newEvent);
+    Task<List<EventDto>> GetEvents(int? universityId = null, DateTime? startDate = null);
 }

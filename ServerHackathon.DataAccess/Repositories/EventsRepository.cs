@@ -37,4 +37,16 @@ public class EventsRepository : IEventsRepository
         List<Event> events = await query.ToListAsync();
         return events;
     }
+
+    public async Task<bool> CheckEventExists(int placeId, DateTime date)
+    {
+        // Проверяем, есть ли мероприятие для указанного места и даты
+        return await _context.Event.AnyAsync(e => e.PlaceId == placeId && e.Date.Date == date.Date);
+    }
+
+    public async Task<bool> CheckEventPlaceExists(string typeName)
+    {
+        // Проверяем, существует ли место с указанным именем
+        return await _context.Place.AnyAsync(p => p.Name == typeName);
+    }
 }

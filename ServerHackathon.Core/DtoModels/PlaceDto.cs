@@ -20,6 +20,8 @@ public class PlaceDto
 
     public UniversityDto University { get; set; }
 
+    public ICollection<PlaceTypeDto> Types { get; set; }
+
     public PlaceDto() { }
     public PlaceDto(Place place)
     {
@@ -31,5 +33,6 @@ public class PlaceDto
         Capacity = place.Capacity;
         isBlocked = place.isBlocked;
         University = new UniversityDto(place.University);
+        Types = place.Types.Select(t => new PlaceTypeDto(t)).ToList();
     }
 }

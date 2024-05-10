@@ -16,8 +16,6 @@ public class EventDto
 
     public PlaceDto Place { get; set; }
 
-    public int StatusId { get; set; }
-
     public EventStatusDto Status { get; set; }
 
     //public ICollection<UserDto> Users { get; set; }
