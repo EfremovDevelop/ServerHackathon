@@ -59,7 +59,7 @@ service.AddScoped<IJwtProvider, JwtProvider>();
 service.AddScoped<IPasswordHash, PasswordHash>();
 
 //Repositories
-service.AddScoped<IEventsRepository, EventsRepository>();
+service.AddScoped<IEventStatusRepository, EventStatusRepository>();
 service.AddScoped<IUsersRepository, UsersRepository>();
 service.AddScoped<IUniversitiesRepository, UniversitiesRepository>();
 service.AddScoped<IEventsRepository, EventsRepository>();
