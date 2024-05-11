@@ -56,7 +56,7 @@ public class EventsService : IEventsService
     {
         var events = await _eventsRepository.GetEvents(universityId, startDate);
 
-        return events.Select(e => new EventDto(e)).ToList();
+        return events.Select(e => new EventDto(e)).OrderBy(e=>e.Date).ToList();
     }
 
     public async Task<Guid> Update(EventDto updatedEvent, Guid userId)
