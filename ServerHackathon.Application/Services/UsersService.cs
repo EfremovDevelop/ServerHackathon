@@ -67,4 +67,9 @@ public class UsersService
 
         return new UserDto(user);
     }
+
+    public async Task<bool> CheckUserById(Guid id)
+    {
+        return await _usersRepository.CheckById(id);
+    }
 }

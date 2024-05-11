@@ -31,4 +31,13 @@ public class UsersRepository : IUsersRepository
 
         return user;
     }
+
+    public async Task<bool> CheckById(Guid id)
+    {
+        var user = await _context.User.FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user == null)
+            return false;
+        return true;
+    }
 }

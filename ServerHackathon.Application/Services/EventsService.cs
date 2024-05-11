@@ -9,13 +9,15 @@ namespace ServerHackathon.Application.Services;
 public class EventsService : IEventsService
 {
     private readonly IEventsRepository _eventsRepository;
+    private readonly IEventParticipantRepository _eventParticipantRepository;
 
-    public EventsService(IEventsRepository eventsRepository)
+    public EventsService(IEventsRepository eventsRepository, IEventParticipantRepository eventParticipantRepository)
     {
         _eventsRepository = eventsRepository;
+        _eventParticipantRepository = eventParticipantRepository;
     }
 
-    public async Task<Guid> Create(EventDto newEvent)
+    public async Task<Guid> Create(EventDto newEvent, Guid userId)
     {
         bool isEventExists = await _eventsRepository.CheckEventExists(newEvent.Place.Id, newEvent.Date);
         // нужно добавить проверку на пересечение с бронированием коворкингов имеющих тип ивента
@@ -24,9 +26,9 @@ public class EventsService : IEventsService
             throw new InvalidOperationException("Мероприятие для указанного места и даты уже существует.");
         }
 
-        bool isEventPlaceExist = await _eventsRepository.CheckEventPlaceExists(PlaceTypeEnum.Event.ToString());
+        bool isEventPlaceExist = await _eventsRepository.CheckEventPlaceExists(PlaceTypeEnum.Event.ToString(), newEvent.Place.Id);
 
-        if (isEventPlaceExist)
+        if (!isEventPlaceExist)
         {
             throw new InvalidOperationException("Мероприятия нельзя проводить в данном месте");
         }
@@ -42,7 +44,12 @@ public class EventsService : IEventsService
             StatusId = newEvent.Status.Id
         };
 
-        return await _eventsRepository.Create(eventEntity);
+        Guid eventId = await _eventsRepository.Create(eventEntity);
+        if (eventId != Guid.Empty && userId != Guid.Empty)
+        {
+            await _eventParticipantRepository.AddParticipant(userId, eventId);
+        }
+        return eventId;
     }
 
     public async Task<List<EventDto>> GetEvents(int? universityId = null, DateTime? startDate = null)

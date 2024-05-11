@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerHackathon.Application.Services;
+using ServerHackathon.Core.Interfaces.Services;
 using ServerHackathon.Infrastructure.Auth;
 
 namespace ServerHackathon.API.Controllers;

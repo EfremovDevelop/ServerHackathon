@@ -25,7 +25,7 @@ public class EventsRepository : IEventsRepository
 
         if (startDate == null)
         {
-            startDate = DateTime.Today;
+            startDate = DateTime.Today.ToUniversalTime();
         }
         query = query.Where(e => e.Date >= startDate);
 
@@ -34,7 +34,12 @@ public class EventsRepository : IEventsRepository
             query = query.Where(e => e.Place.UniversityId == universityId);
         }
 
-        List<Event> events = await query.ToListAsync();
+        List<Event> events = await query
+            .Include(p => p.Place)
+            .ThenInclude(u => u.University)
+            .Include(s => s.Status)
+            .Include(e => e.Place.Types)
+            .ToListAsync();
         return events;
     }
 
@@ -44,9 +49,18 @@ public class EventsRepository : IEventsRepository
         return await _context.Event.AnyAsync(e => e.PlaceId == placeId && e.Date.Date == date.Date);
     }
 
-    public async Task<bool> CheckEventPlaceExists(string typeName)
+    public async Task<bool> CheckEventPlaceExists(string typeName, int placeId)
     {
-        // Проверяем, существует ли место с указанным именем
-        return await _context.Place.AnyAsync(p => p.Name == typeName);
+        var place = await _context.Place
+            .Include(p => p.Types)
+            .FirstOrDefaultAsync(p => p.Id == placeId);
+
+        if (place == null)
+        {
+            return false;
+        }
+        var disallowedType = place.Types.FirstOrDefault(t => t.Name == typeName);
+
+        return disallowedType != null;
     }
 }

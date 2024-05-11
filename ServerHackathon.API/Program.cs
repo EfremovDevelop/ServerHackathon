@@ -48,6 +48,8 @@ service.AddSwaggerGen();
 //Services
 service.AddScoped<UsersService>();
 service.AddScoped<IUniversitiesService, UniversitiesService>();
+service.AddScoped<IEventsService, EventsService>();
+service.AddScoped<IEventParticipantsService, EventParticipantsService>();
 
 service.AddHttpContextAccessor();
 
@@ -58,6 +60,8 @@ service.AddScoped<IPasswordHash, PasswordHash>();
 //Repositories
 service.AddScoped<IUsersRepository, UsersRepository>();
 service.AddScoped<IUniversitiesRepository, UniversitiesRepository>();
+service.AddScoped<IEventsRepository, EventsRepository>();
+service.AddScoped<IEventParticipantRepository, EventParticipantRepository>();
 
 service.AddApiAuthentication(service.BuildServiceProvider().GetRequiredService<IOptions<JwtOptions>>());
 

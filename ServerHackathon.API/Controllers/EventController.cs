@@ -1,36 +1,52 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerHackathon.API.Contracts.Users;
 using ServerHackathon.Application.Services;
 using ServerHackathon.Core.DtoModels;
+using ServerHackathon.Core.Interfaces.Services;
 
 namespace ServerHackathon.API.Controllers
 {
-    [Route("api/event")]
+    [Route("api/events")]
     [ApiController]
-    public class EventController: BaseController
+    public class EventController : BaseController
     {
-        private readonly EventsService _eventService;
-        public EventController(EventsService eventsService)
+        private readonly IEventsService _eventService;
+        private readonly UsersService _usersService;
+        public EventController(IEventsService eventsService, UsersService usersService)
         {
             _eventService = eventsService;
+            _usersService = usersService;
         }
 
-        [HttpPost("create")]
+        [Authorize]
+        [HttpPost]
         public async Task<IResult> Create([FromBody] EventRequest eventRequest)
         {
+            var userId = GetUserId();
+
+            if (userId == Guid.Empty)
+                return Results.Unauthorized();
+            bool checkUser = await _usersService.CheckUserById(userId);
+            if (checkUser == false)
+                return Results.Unauthorized();
+
             var eventDto = new EventDto();
             eventDto.Name = eventRequest.Name;
             eventDto.Date = eventRequest.Date;
-            eventDto.Place = new PlaceDto{Id = eventRequest.placeId};
-            eventDto.Status = new EventStatusDto{Id = eventRequest.statusId};
+            eventDto.Place = new PlaceDto { Id = eventRequest.placeId };
+            eventDto.Status = new EventStatusDto { Id = eventRequest.statusId };
 
-            var id = await _eventService.Create(eventDto);
-            if(id == null)
-            {
-                return Results.BadRequest("Failed to create event");
-            }
+            await _eventService.Create(eventDto, userId);
 
             return Results.Ok();
-        } 
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<EventDto>>> GetEvents(int? universityId = null, DateTime? startDate = null)
+        {
+            var events = await _eventService.GetEvents(universityId, startDate);
+            return Ok(events);
+        }
     }
 }
