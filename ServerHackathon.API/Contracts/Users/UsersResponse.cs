@@ -6,7 +6,6 @@ namespace ServerHackathon.API.Contracts.Users
         string? Phone, string? Email, string? ProfileImageUrl);
 
     public record UsersTokenResponse(Guid Id, string Name, string Surname, string Login, GenderDto Gender,
-        string? Phone, string? Email, UniversityDto University,
-        ICollection<EventDto> Events, ICollection<BookingDto> Bookings, string? ProfileImageUrl,
+        string? Phone, string? Email, UniversityDto University, string? ProfileImageUrl,
         string? card, string token);
 }

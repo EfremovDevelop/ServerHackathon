@@ -106,8 +106,7 @@ public class UsersController : BaseController
         var user = await _usersService.GetUserByLogin(request.Login);
 
         var response = new UsersTokenResponse(user.Id, user.Name, user.Surname,
-            user.Login, user.Gender, user.Phone, user.Email, user.University, user.Events,
-            user.Bookings, user.ProfileImageUrl, user.Card, token);
+            user.Login, user.Gender, user.Phone, user.Email, user.University, user.ProfileImageUrl, user.Card, token);
 
         return Ok(response);
     }

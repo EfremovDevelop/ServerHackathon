@@ -31,9 +31,10 @@ namespace ServerHackathon.API.Controllers
             if (checkUser == false)
                 return Results.Unauthorized();
 
+            DateTime date = DateTime.SpecifyKind(eventRequest.Date, DateTimeKind.Utc);
             var eventDto = new EventDto();
             eventDto.Name = eventRequest.Name;
-            eventDto.Date = eventRequest.Date;
+            eventDto.Date = date;
             eventDto.Place = new PlaceDto { Id = eventRequest.placeId };
             eventDto.Status = new EventStatusDto { Id = eventRequest.statusId };
 

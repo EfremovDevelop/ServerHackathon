@@ -24,10 +24,6 @@ public class UserDto
 
     public UniversityDto University { get; set; }
 
-    public ICollection<EventDto> Events { get; set; }
-
-    public ICollection<BookingDto> Bookings { get; set; }
-
     public string? Card {  get; set; }
 
     public UserDto() { }
@@ -44,7 +40,5 @@ public class UserDto
         Gender = new GenderDto(user.Gender);
         ProfileImageUrl = user.ProfileImageUrl;
         University = new UniversityDto(user.University);
-        Events = user.Events.Select(e => new EventDto(e)).ToList();
-        Bookings = user.Bookings.Select(b => new BookingDto(b)).ToList();
     }
 }
