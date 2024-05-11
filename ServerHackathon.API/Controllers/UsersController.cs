@@ -119,21 +119,4 @@ public class UsersController : BaseController
         return Ok();
     }
 
-    // GET api/<controller>/5
-    [HttpGet("static")]
-    public IActionResult Get(string id)
-    {
-        
-        var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", id);
-        try
-        {
-            var imageFileStream = System.IO.File.OpenRead(path);
-            return File(imageFileStream, "image/jpeg");
-            
-        }
-        catch (System.Exception)
-        {
-            return NotFound();
-        }
-    }
 }
