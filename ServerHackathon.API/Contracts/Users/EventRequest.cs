@@ -5,5 +5,5 @@ using System.Threading.Tasks;
 
 namespace ServerHackathon.API.Contracts.Users
 {
-    public record EventRequest(string Name, DateTime Date, int placeId, int statusId);
+    public record EventRequest(string Name, DateTime Date, int placeId, int statusId, IFormFile? thumbnail);
 }

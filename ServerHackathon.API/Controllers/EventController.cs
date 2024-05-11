@@ -13,15 +13,17 @@ namespace ServerHackathon.API.Controllers
     {
         private readonly IEventsService _eventService;
         private readonly UsersService _usersService;
-        public EventController(IEventsService eventsService, UsersService usersService)
+        private readonly IWebHostEnvironment _env;
+        public EventController(IEventsService eventsService, UsersService usersService, IWebHostEnvironment env)
         {
             _eventService = eventsService;
             _usersService = usersService;
+            _env = env;
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IResult> Create([FromBody] EventRequest eventRequest)
+        public async Task<IResult> Create([FromForm] EventRequest eventRequest)
         {
             var userId = GetUserId();
 
@@ -31,12 +33,35 @@ namespace ServerHackathon.API.Controllers
             if (checkUser == false)
                 return Results.Unauthorized();
 
+            //Thumbnail Validation
+            string thumbnail = "";
+            if (eventRequest.thumbnail != null && eventRequest.thumbnail.Length > 0)
+            {
+                string path = _env.WebRootPath + "\\uploads\\events\\";
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+
+                }
+                using (FileStream fileStream = System.IO.File.Create(path + eventRequest.thumbnail.FileName))
+                {
+                    eventRequest.thumbnail.CopyTo(fileStream);
+                    fileStream.Flush();
+                    path = "\\static\\uploads\\events\\" + eventRequest.thumbnail.FileName;
+                    var baseUri = $"{Request.Scheme}://{Request.Host}";
+                    thumbnail = baseUri+path.Replace("\\", "/");
+                }
+            }
+
             DateTime date = DateTime.SpecifyKind(eventRequest.Date, DateTimeKind.Utc);
             var eventDto = new EventDto();
             eventDto.Name = eventRequest.Name;
             eventDto.Date = date;
             eventDto.Place = new PlaceDto { Id = eventRequest.placeId };
             eventDto.Status = new EventStatusDto { Id = eventRequest.statusId };
+            if(thumbnail.Length >0){
+                eventDto.Thumbnail = thumbnail;
+            }
 
             await _eventService.Create(eventDto, userId);
 
