@@ -16,4 +16,9 @@ public class EventParticipantsService : IEventParticipantsService
     {
         return await _eventParticipantRepository.GetEventPartisipants(eventId);
     }
+
+    public async Task<int> AddParticipant(Guid userId, Guid eventId)
+    {
+        return await _eventParticipantRepository.AddParticipant(userId, eventId);
+    }
 }

@@ -46,6 +46,7 @@ service.AddEndpointsApiExplorer();
 service.AddSwaggerGen();
 
 //Services
+service.AddScoped<IEventStatusService, EventStatusService>();
 service.AddScoped<UsersService>();
 service.AddScoped<IUniversitiesService, UniversitiesService>();
 service.AddScoped<IEventsService, EventsService>();
@@ -58,6 +59,7 @@ service.AddScoped<IJwtProvider, JwtProvider>();
 service.AddScoped<IPasswordHash, PasswordHash>();
 
 //Repositories
+service.AddScoped<IEventsRepository, EventsRepository>();
 service.AddScoped<IUsersRepository, UsersRepository>();
 service.AddScoped<IUniversitiesRepository, UniversitiesRepository>();
 service.AddScoped<IEventsRepository, EventsRepository>();
