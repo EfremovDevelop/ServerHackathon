@@ -58,4 +58,30 @@ public class EventsService : IEventsService
 
         return events.Select(e => new EventDto(e)).ToList();
     }
+
+    public async Task<Guid> Update(EventDto updatedEvent, Guid userId)
+    {
+        var eventEntity = await _eventsRepository.GetEvent(updatedEvent.Id);
+        if(eventEntity == null){
+            throw new InvalidOperationException("Не найдено мероприятие с данным id");
+        }
+        if(updatedEvent.Name != null)
+                eventEntity.Name = updatedEvent.Name;
+        if(updatedEvent.Date != null)
+        {
+            eventEntity.Date = updatedEvent.Date;
+        }
+        if(updatedEvent.Thumbnail != null)
+            eventEntity.Thumbnail = updatedEvent.Thumbnail;
+
+        bool isEventExists = await _eventsRepository.CheckEventExists(eventEntity.PlaceId, eventEntity.Date, eventEntity.Id);
+        // нужно добавить проверку на пересечение с бронированием коворкингов имеющих тип ивента
+        if (isEventExists)
+        {
+            throw new InvalidOperationException("Мероприятие для указанного места и даты уже существует.");
+        }
+
+        Guid eventId = await _eventsRepository.Update(eventEntity);
+        return eventId;
+    }
 }

@@ -4,6 +4,7 @@ using ServerHackathon.API.Contracts.Users;
 using ServerHackathon.Application.Services;
 using ServerHackathon.Core.DtoModels;
 using ServerHackathon.Core.Interfaces.Services;
+using ServerHackathon.DomainModel;
 
 namespace ServerHackathon.API.Controllers
 {
@@ -74,5 +75,52 @@ namespace ServerHackathon.API.Controllers
             var events = await _eventService.GetEvents(universityId, startDate);
             return Ok(events);
         }
+
+        [HttpPut("update")]
+        [Authorize]
+        public async Task<IResult> Update([FromForm] EventUpdateRequest eventUpdateRequest)
+        {
+            //Thumbnail Validation
+            string thumbnail = "";
+            if (eventUpdateRequest.thumbnail != null && eventUpdateRequest.thumbnail.Length > 0)
+            {
+                string path = _env.WebRootPath + "\\uploads\\events\\";
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+
+                }
+                using (FileStream fileStream = System.IO.File.Create(path + eventUpdateRequest.thumbnail.FileName))
+                {
+                    eventUpdateRequest.thumbnail.CopyTo(fileStream);
+                    fileStream.Flush();
+                    path = "\\static\\uploads\\events\\" + eventUpdateRequest.thumbnail.FileName;
+                    var baseUri = $"{Request.Scheme}://{Request.Host}";
+                    thumbnail = baseUri+path.Replace("\\", "/");
+                }
+            }
+
+            Guid userId = GetUserId();
+            if (userId == Guid.Empty)
+            {
+                return Results.NotFound();
+            }
+
+            var eventDto = new EventDto();
+            eventDto.Id = eventUpdateRequest.eventId;
+            eventDto.Thumbnail = thumbnail;
+            if(eventUpdateRequest.Name != null)
+                eventDto.Name = eventUpdateRequest.Name;
+            if(eventUpdateRequest.Date != null)
+            {
+                DateTime date = DateTime.SpecifyKind((DateTime)eventUpdateRequest.Date, DateTimeKind.Utc);
+                eventDto.Date = date;
+            }
+
+            var id = await _eventService.Update(eventDto, userId);
+            return Results.Ok();
+        }
+
+
     }
 }

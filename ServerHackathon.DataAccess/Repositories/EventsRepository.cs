@@ -49,6 +49,12 @@ public class EventsRepository : IEventsRepository
 		return await _context.Event.AnyAsync(e => e.PlaceId == placeId && e.Date.Date == date.Date);
 	}
 
+    public async Task<bool> CheckEventExists(int placeId, DateTime date, Guid eventId)
+	{
+		// Проверяем, есть ли мероприятие для указанного места и даты
+		return await _context.Event.AnyAsync(e => e.PlaceId == placeId && e.Date.Date == date.Date && e.Id != eventId);
+	}
+
 	public async Task<bool> CheckEventPlaceExists(string typeName, int placeId)
 	{
 		var place = await _context.Place
@@ -63,4 +69,25 @@ public class EventsRepository : IEventsRepository
 
 		return disallowedType != null;
 	}
+    
+
+    public async Task<Guid> Update(Event updatedEvent)
+    {
+        await _context.Event
+        .Where(i => i.Id == updatedEvent.Id)
+        .ExecuteUpdateAsync(s => s
+            .SetProperty(p => p.Name, p => updatedEvent.Name)
+            .SetProperty(p => p.Thumbnail, p => updatedEvent.Thumbnail)
+            .SetProperty(p => p.Description, p => updatedEvent.Description)
+            .SetProperty(p=>p.Date, p=> updatedEvent.Date)
+            .SetProperty(p => p.PlaceId, p=> updatedEvent.PlaceId)
+            .SetProperty(p => p.StatusId, p => updatedEvent.StatusId));
+        await _context.SaveChangesAsync();
+        return updatedEvent.Id;
+    }
+
+    public async Task<Event?> GetEvent(Guid id)
+    {
+        return await _context.Event.FindAsync(id);
+    }
 }
