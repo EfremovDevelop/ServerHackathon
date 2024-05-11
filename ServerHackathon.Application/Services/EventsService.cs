@@ -67,11 +67,11 @@ public class EventsService : IEventsService
         }
         if(updatedEvent.Name != null)
                 eventEntity.Name = updatedEvent.Name;
-        if(updatedEvent.Date != null)
+        if(updatedEvent.Date.Year != 0001) //Костыль
         {
             eventEntity.Date = updatedEvent.Date;
         }
-        if(updatedEvent.Thumbnail != null)
+        if(updatedEvent.Thumbnail.Length >0)
             eventEntity.Thumbnail = updatedEvent.Thumbnail;
 
         bool isEventExists = await _eventsRepository.CheckEventExists(eventEntity.PlaceId, eventEntity.Date, eventEntity.Id);
