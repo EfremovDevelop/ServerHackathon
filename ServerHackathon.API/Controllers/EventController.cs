@@ -105,6 +105,7 @@ namespace ServerHackathon.API.Controllers
                     path = "/static/uploads/events/" + eventUpdateRequest.thumbnail.FileName;
                     var baseUri = $"{Request.Scheme}://{Request.Host}";
                     // thumbnail = baseUri+path.Replace("\\", "/");
+                    thumbnail = baseUri+path;
                 }
             }
 

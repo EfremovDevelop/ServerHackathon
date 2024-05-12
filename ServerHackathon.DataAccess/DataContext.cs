@@ -17,6 +17,7 @@
         public virtual DbSet<EventStatus> EventStatus { get; set; }
         public virtual DbSet<PlaceType> PlaceType { get; set; }
         public virtual DbSet<PlaceTypeList> PlaceTypeList { get; set; }
+        public virtual DbSet<Booking> Booking { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
