@@ -16,7 +16,7 @@ namespace ServerHackathon.API.Controllers
             
             if (string.IsNullOrWhiteSpace(_webHostEnvironment.WebRootPath))
             {
-                Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "wwwroot");
+                _webHostEnvironment.WebRootPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "wwwroot");
             }
             Console.WriteLine("env: WebRootPath = "+_webHostEnvironment.WebRootPath);
         }
