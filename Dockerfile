@@ -17,6 +17,7 @@ COPY ["ServerHackathon.DataAccess/ServerHackathon.DataAccess.csproj", "ServerHac
 COPY ["ServerHackathon.Infrastructure/ServerHackathon.Infrastructure.csproj", "ServerHackathon.Infrastructure/"]
 RUN dotnet restore "./ServerHackathon.API/ServerHackathon.API.csproj"
 COPY . .
+RUN chmod -R 755 wwwroot
 WORKDIR "/src/ServerHackathon.API"
 RUN dotnet build "./ServerHackathon.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
