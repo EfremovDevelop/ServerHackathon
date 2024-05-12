@@ -1,11 +1,10 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerHackathon.API.Contracts.Users;
 using ServerHackathon.Application.Services;
 using ServerHackathon.Core.DtoModels;
 using ServerHackathon.Core.Interfaces.Services;
-using ServerHackathon.DomainModel;
+using System.Reflection;
 
 namespace ServerHackathon.API.Controllers
 {
@@ -26,7 +25,7 @@ namespace ServerHackathon.API.Controllers
             {
                 _env.WebRootPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "wwwroot");
             }
-            Console.WriteLine("env: WebRootPath = "+_env.WebRootPath);
+            Console.WriteLine("env: WebRootPath = " + _env.WebRootPath);
         }
 
         [Authorize]
@@ -58,7 +57,7 @@ namespace ServerHackathon.API.Controllers
                     path = "/static/uploads/events/" + eventRequest.thumbnail.FileName;
                     var baseUri = $"{Request.Scheme}://{Request.Host}";
                     // thumbnail = baseUri+path.Replace("\\", "/");
-                    thumbnail = baseUri+path;
+                    thumbnail = baseUri + path;
                 }
             }
 
@@ -68,7 +67,8 @@ namespace ServerHackathon.API.Controllers
             eventDto.Date = date;
             eventDto.Place = new PlaceDto { Id = eventRequest.placeId };
             eventDto.Status = new EventStatusDto { Id = eventRequest.statusId };
-            if(thumbnail.Length >0){
+            if (thumbnail.Length > 0)
+            {
                 eventDto.Thumbnail = thumbnail;
             }
 
@@ -105,7 +105,7 @@ namespace ServerHackathon.API.Controllers
                     path = "/static/uploads/events/" + eventUpdateRequest.thumbnail.FileName;
                     var baseUri = $"{Request.Scheme}://{Request.Host}";
                     // thumbnail = baseUri+path.Replace("\\", "/");
-                    thumbnail = baseUri+path;
+                    thumbnail = baseUri + path;
                 }
             }
 
@@ -118,9 +118,9 @@ namespace ServerHackathon.API.Controllers
             var eventDto = new EventDto();
             eventDto.Id = eventUpdateRequest.eventId;
             eventDto.Thumbnail = thumbnail;
-            if(eventUpdateRequest.Name != null)
+            if (eventUpdateRequest.Name != null)
                 eventDto.Name = eventUpdateRequest.Name;
-            if(eventUpdateRequest.Date != null)
+            if (eventUpdateRequest.Date != null)
             {
                 DateTime date = DateTime.SpecifyKind((DateTime)eventUpdateRequest.Date, DateTimeKind.Utc);
                 eventDto.Date = date;

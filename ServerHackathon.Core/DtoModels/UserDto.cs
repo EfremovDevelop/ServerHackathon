@@ -26,6 +26,8 @@ public class UserDto
 
     public string? Card {  get; set; }
 
+    public ICollection<EventDto> Events { get; set; }
+
     public UserDto() { }
 
     public UserDto(User user)

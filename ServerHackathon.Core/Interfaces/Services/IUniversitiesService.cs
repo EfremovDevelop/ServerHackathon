@@ -1,5 +1,4 @@
 ﻿using ServerHackathon.Core.DtoModels;
-using ServerHackathon.DomainModel;
 
 namespace ServerHackathon.Core.Interfaces.Services;
 

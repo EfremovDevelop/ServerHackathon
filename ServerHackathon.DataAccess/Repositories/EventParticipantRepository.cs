@@ -38,4 +38,19 @@ public class EventParticipantRepository : IEventParticipantRepository
 
         return participants;
     }
+
+    public async Task DeleteParticipant(Guid userId, Guid eventId)
+    {
+        await _context.EventParticipant
+            .Where(e => e.UserId == userId && e.EventId == eventId)
+            .ExecuteDeleteAsync();
+    }
+
+    public async Task<bool> CheckRegisterParticipant(Guid userId, Guid eventId)
+    {
+        var participant =  await _context.EventParticipant
+            .FirstOrDefaultAsync(p => p.UserId == userId && p.EventId == eventId);
+
+        return participant != null;
+    }
 }
