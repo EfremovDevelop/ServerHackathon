@@ -39,7 +39,7 @@ namespace ServerHackathon.API.Controllers
         [HttpGet("{folder}/{subfolder}/{filename}")]
         public IActionResult GetSubFolder(string folder, string subfolder,string filename)
         {
-            var path = Path.Combine("/wwwroot", folder, subfolder, filename);
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, folder, subfolder, filename);
             Console.WriteLine("GetSubFolder: path = " +path);
             try
             {
