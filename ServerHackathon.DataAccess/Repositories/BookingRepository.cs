@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.DomainModel;
 
@@ -33,6 +34,17 @@ namespace ServerHackathon.DataAccess.Repositories
             await _context.Booking.AddAsync(booking);
             await _context.SaveChangesAsync();
             return booking.Id;
+        }
+
+        public async Task<List<Booking>> GetAllBookingFromDay(int placeId, DateTime day)
+        {
+            IQueryable<Booking> query = _context.Booking;
+		    query = query.Where(b => b.PlaceId >= placeId && b.CheckIn.Date == day.Date);
+
+            List<Booking> events = await query
+                .Include(p => p.Place)
+                .ToListAsync();
+		    return events;
         }
     }
 }

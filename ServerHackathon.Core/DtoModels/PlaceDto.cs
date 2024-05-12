@@ -18,6 +18,12 @@ public class PlaceDto
 
     public bool isBlocked { get; set; } = false;
 
+    public DateTime? WorkFrom { get; set; }
+
+    public DateTime? WorkTo { get; set;}
+    
+    public int minuteStep { get; set; }
+    
     public UniversityDto University { get; set; }
 
     public ICollection<PlaceTypeDto> Types { get; set; }
@@ -32,6 +38,9 @@ public class PlaceDto
         Description = place.Description;
         Capacity = place.Capacity;
         isBlocked = place.isBlocked;
+        WorkFrom = place.WorkFrom;
+        WorkTo = place.WorkTo;
+        minuteStep = place.minuteStep;
         University = new UniversityDto(place.University);
         Types = place.Types.Select(t => new PlaceTypeDto(t)).ToList();
     }

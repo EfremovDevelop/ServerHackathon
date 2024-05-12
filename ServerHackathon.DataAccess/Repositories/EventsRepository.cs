@@ -90,4 +90,16 @@ public class EventsRepository : IEventsRepository
     {
         return await _context.Event.FindAsync(id);
     }
+
+    public async Task<List<Event>?> GetAllEventsFromDay(int placeId, DateTime day)
+    {
+		IQueryable<Event> query = _context.Event;
+		query = query.Where(e => e.PlaceId >= placeId && e.Date.Date == day.Date );
+
+        List<Event> events = await query
+			.Include(p => p.Place)
+			// .Include(p=>p.Date)
+			.ToListAsync();
+		return events;
+    }
 }

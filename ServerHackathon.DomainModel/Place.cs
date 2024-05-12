@@ -15,6 +15,9 @@ public class Place
     public int? Capacity { get; set; }
 
     public bool isBlocked { get; set; } = false;
+    public DateTime? WorkFrom { get; set; }
+    public DateTime? WorkTo { get; set;}
+    public int minuteStep { get; set; } = 60;
 
     public int UniversityId { get; set; }
 

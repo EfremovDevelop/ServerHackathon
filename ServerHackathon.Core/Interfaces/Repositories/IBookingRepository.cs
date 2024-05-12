@@ -7,5 +7,6 @@ namespace ServerHackathon.Core.Interfaces.Repositories
         Task<Guid> Create(Booking booking);
         Task<bool> CheckBookingExists(int placeId, DateTime checkIn, DateTime checkOut);
         Task<bool> CheckBookingPlaceExists(int placeId, DateTime checkIn, DateTime checkOut);
+        Task<List<Booking>> GetAllBookingFromDay(int placeId, DateTime day);
     }
 }
