@@ -14,8 +14,8 @@ namespace ServerHackathon.API.Controllers
         {
             _placeService = placeService;
         }
-        [HttpPost]
-        public async Task<ActionResult<List<BookingSlotDto>>> GetAvailableSlots([FromForm] PlaceRequest placeRequest)
+        [HttpGet]
+        public async Task<ActionResult<List<BookingSlotDto>>> GetAvailableSlots([FromBody] PlaceRequest placeRequest)
         {
             var slots = await _placeService.GetSlots(placeRequest.placeId, placeRequest.data);
             return Ok(slots);
