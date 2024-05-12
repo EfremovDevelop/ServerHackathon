@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./wwwroot:/app/wwwroot
+      - event-images:/app/wwwroot/uploads/events
     depends_on:
       - postgres_db
   postgres_db:
@@ -25,3 +25,4 @@ services:
       - postgres-data:/var/lib/postgresql/data
 volumes:
   postgres-data:
+  event-images:
