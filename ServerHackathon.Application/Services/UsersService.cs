@@ -73,7 +73,7 @@ public class UsersService
             Thumbnail = e.Thumbnail,
             Date = e.Date,
             Description = e.Description,
-            PlaceId = e.PlaceId,
+            Place = new PlaceDto(e.Place),
             Status = new EventStatusDto(e.Status),
 
         }).ToList();

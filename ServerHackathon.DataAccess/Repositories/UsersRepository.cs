@@ -25,6 +25,8 @@ public class UsersRepository : IUsersRepository
             .Include(g => g.Gender)
             .Include(u => u.University)
             .Include(e => e.Events).ThenInclude(s => s.Status)
+            .Include(e => e.Events).ThenInclude(p => p.Place).ThenInclude(t => t.Types)
+            .Include(e => e.Events).ThenInclude(p => p.Place).ThenInclude(u => u.University)
             .Include(b => b.Bookings)
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Login == login);

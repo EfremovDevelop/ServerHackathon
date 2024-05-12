@@ -94,10 +94,8 @@ public class UsersController : BaseController
             return NotFound("User not found.");
         }
 
-        var eventsResponse = user.Events.Select(e => new EventsResponse(
-            e.Id, e.Name, e.Thumbnail, e.Description, e.Date, e.PlaceId, e.Status)).ToList();
         var response = new UsersWithEventsResponse(user.Id, user.Name, user.Surname, user.Login,
-            user.Gender, user.Phone, user.Email, user.ProfileImageUrl, eventsResponse);
+            user.Gender, user.Phone, user.Email, user.ProfileImageUrl, user.Events);
 
         return Ok(response);
     }
