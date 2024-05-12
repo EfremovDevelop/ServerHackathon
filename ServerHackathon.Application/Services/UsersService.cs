@@ -65,7 +65,19 @@ public class UsersService
         if (user is null)
             return null;
 
-        return new UserDto(user);
+        var userDto = new UserDto(user);
+        userDto.Events = user.Events.Select(e => new EventDto
+        {
+            Id = e.Id,
+            Name = e.Name,
+            Thumbnail = e.Thumbnail,
+            Date = e.Date,
+            Description = e.Description,
+            PlaceId = e.PlaceId,
+            Status = new EventStatusDto(e.Status),
+
+        }).ToList();
+        return userDto;
     }
 
     public async Task<bool> CheckUserById(Guid id)

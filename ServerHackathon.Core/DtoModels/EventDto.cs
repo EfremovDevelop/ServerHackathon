@@ -14,6 +14,8 @@ public class EventDto
 
     public DateTime Date { get; set; }
 
+    public int PlaceId { get; set; }
+
     public PlaceDto Place { get; set; }
 
     public EventStatusDto Status { get; set; }
@@ -28,6 +30,7 @@ public class EventDto
         Thumbnail = currEvent.Thumbnail;
         Description = currEvent.Description;
         Date = currEvent.Date;
+        PlaceId = currEvent.PlaceId;
         Place = new PlaceDto(currEvent.Place);
         Status = new EventStatusDto(currEvent.Status);
     }

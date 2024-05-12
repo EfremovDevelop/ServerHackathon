@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServerHackathon.API.Contracts.Events;
 using ServerHackathon.API.Contracts.Users;
 using ServerHackathon.Application.Services;
 using ServerHackathon.Core.DtoModels;
@@ -92,10 +93,13 @@ public class UsersController : BaseController
         {
             return NotFound("User not found.");
         }
-        var baseUri = $"{Request.Scheme}://{Request.Host}";
-        var path = baseUri+user.ProfileImageUrl?.Replace("\\", "/");
 
-        return Ok(user);
+        var eventsResponse = user.Events.Select(e => new EventsResponse(
+            e.Id, e.Name, e.Thumbnail, e.Description, e.Date, e.PlaceId, e.Status)).ToList();
+        var response = new UsersWithEventsResponse(user.Id, user.Name, user.Surname, user.Login,
+            user.Gender, user.Phone, user.Email, user.ProfileImageUrl, eventsResponse);
+
+        return Ok(response);
     }
 
     [HttpPost("login")]
