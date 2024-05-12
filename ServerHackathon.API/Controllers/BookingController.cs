@@ -12,8 +12,8 @@ namespace ServerHackathon.API.Controllers
     public class BookingController: BaseController
     {
        private readonly UsersService _usersService;
-       private readonly BookingService _bookingService;
-       public BookingController(UsersService usersService, BookingService bookingService)
+       private readonly IBookingService _bookingService;
+       public BookingController(UsersService usersService, IBookingService bookingService)
        {
             _usersService = usersService;
             _bookingService = bookingService;
@@ -31,8 +31,8 @@ namespace ServerHackathon.API.Controllers
             if (checkUser == false)
                 return Results.Unauthorized();
 
-            DateTime checkIn = DateTime.SpecifyKind(bookingRequest.CehckIn, DateTimeKind.Utc);
-            DateTime checkOut = DateTime.SpecifyKind(bookingRequest.CehckOut, DateTimeKind.Utc);
+            DateTime checkIn = DateTime.SpecifyKind(bookingRequest.CheckIn, DateTimeKind.Utc);
+            DateTime checkOut = DateTime.SpecifyKind(bookingRequest.CheckOut, DateTimeKind.Utc);
             var bookingDto = new BookingDto();
             bookingDto.CheckIn = checkIn;
             bookingDto.CheckOut = checkOut;

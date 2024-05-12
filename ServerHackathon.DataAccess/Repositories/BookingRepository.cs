@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.DomainModel;
 
@@ -10,6 +11,23 @@ namespace ServerHackathon.DataAccess.Repositories
         {
             _context = context;
         }
+
+        public async Task<bool> CheckBookingExists(int placeId, DateTime checkIn, DateTime checkOut)
+        {
+            return await _context.Booking.AnyAsync(e => e.PlaceId == placeId && (checkIn >= e.CheckIn && checkOut > checkIn || checkIn> e.CheckIn && checkOut>checkIn && checkOut <=e.CheckIn));
+        }
+
+        public async Task<bool> CheckBookingPlaceExists(int placeId, DateTime checkIn, DateTime checkOut)
+        {
+            var place = await _context.Event
+			.FirstOrDefaultAsync(p => p.PlaceId == placeId && p.Date > checkIn && p.Date < checkOut);
+
+            if (place == null)
+                return false;
+            else
+                return true;
+        }
+
         public async Task<Guid> Create(Booking booking)
         {
             await _context.Booking.AddAsync(booking);

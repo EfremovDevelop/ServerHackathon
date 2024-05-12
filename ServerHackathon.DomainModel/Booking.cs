@@ -14,7 +14,7 @@ public class Booking
 
     public bool Status { get; set; } = true;
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public int PlaceId { get; set; }
 

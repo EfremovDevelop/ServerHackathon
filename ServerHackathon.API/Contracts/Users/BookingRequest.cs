@@ -5,5 +5,5 @@ using System.Threading.Tasks;
 
 namespace ServerHackathon.API.Contracts
 {
-    public record BookingRequest(DateTime CehckIn, DateTime CehckOut, int placeId);
+    public record BookingRequest(DateTime CheckIn, DateTime CheckOut, int placeId);
 }
