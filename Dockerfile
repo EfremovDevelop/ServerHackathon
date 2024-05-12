@@ -28,6 +28,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-RUN chmod -R 755 /app/wwwroot/uploads/events
+RUN mkdir -p /app/wwwroot/uploads/events \
+    && chown -R app:app /app/wwwroot/uploads/events
 
 ENTRYPOINT ["dotnet", "ServerHackathon.API.dll"]
