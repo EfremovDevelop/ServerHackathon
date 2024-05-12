@@ -38,7 +38,7 @@ namespace ServerHackathon.API.Controllers
             string thumbnail = "";
             if (eventRequest.thumbnail != null && eventRequest.thumbnail.Length > 0)
             {
-                string path = _env.WebRootPath + "\\uploads\\events\\";
+                string path = _env.WebRootPath + "/uploads/events/";
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -48,9 +48,9 @@ namespace ServerHackathon.API.Controllers
                 {
                     eventRequest.thumbnail.CopyTo(fileStream);
                     fileStream.Flush();
-                    path = "\\static\\uploads\\events\\" + eventRequest.thumbnail.FileName;
+                    path = "/static/uploads/events/" + eventRequest.thumbnail.FileName;
                     var baseUri = $"{Request.Scheme}://{Request.Host}";
-                    thumbnail = baseUri+path.Replace("\\", "/");
+                    // thumbnail = baseUri+path.Replace("\\", "/");
                 }
             }
 
@@ -84,7 +84,7 @@ namespace ServerHackathon.API.Controllers
             string thumbnail = "";
             if (eventUpdateRequest.thumbnail != null && eventUpdateRequest.thumbnail.Length > 0)
             {
-                string path = _env.WebRootPath + "\\uploads\\events\\";
+                string path = _env.WebRootPath + "/uploads/events/";
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -94,9 +94,9 @@ namespace ServerHackathon.API.Controllers
                 {
                     eventUpdateRequest.thumbnail.CopyTo(fileStream);
                     fileStream.Flush();
-                    path = "\\static\\uploads\\events\\" + eventUpdateRequest.thumbnail.FileName;
+                    path = "/static/uploads/events/" + eventUpdateRequest.thumbnail.FileName;
                     var baseUri = $"{Request.Scheme}://{Request.Host}";
-                    thumbnail = baseUri+path.Replace("\\", "/");
+                    // thumbnail = baseUri+path.Replace("\\", "/");
                 }
             }
 
