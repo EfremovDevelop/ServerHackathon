@@ -21,4 +21,14 @@ public class EventParticipantsService : IEventParticipantsService
     {
         return await _eventParticipantRepository.AddParticipant(userId, eventId);
     }
+
+    public async Task DeleteParticipant(Guid userId, Guid eventId)
+    {
+        await _eventParticipantRepository.DeleteParticipant(userId, eventId);
+    }
+
+    public async Task<bool> CheckRegisterParticipant(Guid userId, Guid eventId)
+    {
+        return await _eventParticipantRepository.CheckRegisterParticipant(userId, eventId);
+    }
 }

@@ -36,8 +36,29 @@ public class EventParticipantsController : BaseController
         bool checkUser = await _usersService.CheckUserById(userId);
         if (checkUser == false)
             return Results.Unauthorized();
+        if (await _eventParticipantsService.CheckRegisterParticipant(userId, eventId))
+            return Results.BadRequest();
 
         await _eventParticipantsService.AddParticipant(userId, eventId);
+        return Results.Ok();
+    }
+
+    [Authorize]
+    [HttpDelete]
+    public async Task<IResult> DeleteParticipant(Guid eventId)
+    {
+        var userId = GetUserId();
+
+        if (userId == Guid.Empty)
+            return Results.Unauthorized();
+        bool checkUser = await _usersService.CheckUserById(userId);
+        if (checkUser == false)
+            return Results.Unauthorized();
+
+        if (!await _eventParticipantsService.CheckRegisterParticipant(userId, eventId))
+            return Results.BadRequest();
+
+        await _eventParticipantsService.DeleteParticipant(userId, eventId);
         return Results.Ok();
     }
 }
