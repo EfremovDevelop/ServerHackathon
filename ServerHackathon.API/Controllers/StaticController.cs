@@ -52,5 +52,20 @@ namespace ServerHackathon.API.Controllers
                 return NotFound();
             }
         }
+        [HttpGet]
+        public IActionResult GetSubFolder([FromForm] string path)
+        {
+            Console.WriteLine("GetSubFolder: path = " +path);
+            try
+            {
+                var imageFileStream = System.IO.File.OpenRead(path);
+                return File(imageFileStream, "image/jpeg");
+                
+            }
+            catch (System.Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
     }
 }
