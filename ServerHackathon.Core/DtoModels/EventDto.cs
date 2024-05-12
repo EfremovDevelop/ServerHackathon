@@ -16,6 +16,8 @@ public class EventDto
 
     public PlaceDto Place { get; set; }
 
+    public bool isParticipant { get; set; } = false;
+
     public EventStatusDto Status { get; set; }
 
     //public ICollection<UserDto> Users { get; set; }

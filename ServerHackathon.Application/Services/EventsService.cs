@@ -52,11 +52,19 @@ public class EventsService : IEventsService
         return eventId;
     }
 
-    public async Task<List<EventDto>> GetEvents(int? universityId = null, DateTime? startDate = null)
+    public async Task<List<EventDto>> GetEvents(Guid userId, int? universityId = null, DateTime? startDate = null)
     {
         var events = await _eventsRepository.GetEvents(universityId, startDate);
 
-        return events.Select(e => new EventDto(e)).OrderBy(e=>e.Date).ToList();
+        var eventDtos = events
+            .OrderBy(e => e.Date)
+            .Select(e => new EventDto(e)
+            {
+                isParticipant = e.Users.Any(u => u.Id == userId)
+            })
+            .ToList();
+
+        return eventDtos;
     }
 
     public async Task<Guid> Update(EventDto updatedEvent, Guid userId)

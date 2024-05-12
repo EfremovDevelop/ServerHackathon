@@ -77,10 +77,19 @@ namespace ServerHackathon.API.Controllers
             return Results.Ok();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<List<EventDto>>> GetEvents(int? universityId = null, DateTime? startDate = null)
         {
-            var events = await _eventService.GetEvents(universityId, startDate);
+            var userId = GetUserId();
+
+            if (userId == Guid.Empty)
+                return Unauthorized();
+            bool checkUser = await _usersService.CheckUserById(userId);
+            if (checkUser == false)
+                return Unauthorized();
+
+            var events = await _eventService.GetEvents(userId, universityId, startDate);
             return Ok(events);
         }
 

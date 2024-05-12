@@ -39,6 +39,7 @@ public class EventsRepository : IEventsRepository
 			.ThenInclude(u => u.University)
 			.Include(s => s.Status)
 			.Include(e => e.Place.Types)
+			.Include(u => u.Users)
 			.ToListAsync();
 		return events;
 	}
