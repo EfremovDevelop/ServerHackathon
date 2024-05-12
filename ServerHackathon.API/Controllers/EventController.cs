@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerHackathon.API.Contracts.Users;
@@ -20,6 +21,12 @@ namespace ServerHackathon.API.Controllers
             _eventService = eventsService;
             _usersService = usersService;
             _env = env;
+
+            if (string.IsNullOrWhiteSpace(_env.WebRootPath))
+            {
+                _env.WebRootPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "wwwroot");
+            }
+            Console.WriteLine("env: WebRootPath = "+_env.WebRootPath);
         }
 
         [Authorize]
@@ -51,6 +58,7 @@ namespace ServerHackathon.API.Controllers
                     path = "/static/uploads/events/" + eventRequest.thumbnail.FileName;
                     var baseUri = $"{Request.Scheme}://{Request.Host}";
                     // thumbnail = baseUri+path.Replace("\\", "/");
+                    thumbnail = baseUri+path;
                 }
             }
 
