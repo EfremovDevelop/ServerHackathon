@@ -10,5 +10,6 @@ namespace ServerHackathon.Core.Interfaces.Services
         Task AddTypeToPlace(int placeId, int typeId);
         Task<PlaceDto?> GetPlace(int placeId);
         Task UpdatePlace(Place place);
+        Task<List<PlaceDto>> GetAllPlaces();
     }
 }

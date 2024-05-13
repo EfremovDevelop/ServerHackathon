@@ -10,5 +10,6 @@ namespace ServerHackathon.Core.Interfaces.Repositories
         Task UpdatePlace(Place place);
         Task<List<Place>> GetByTypePlaces(PlaceTypeEnum placeTypeEnum);
         Task AddTypeToPlace(int placeId, int typeId);
+        Task<List<Place>> GetAllPlaces();
     }
 }

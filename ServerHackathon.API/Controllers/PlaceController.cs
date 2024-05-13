@@ -21,6 +21,11 @@ namespace ServerHackathon.API.Controllers
             var slots = await _placeService.GetSlots(placeRequest.data);
             return Ok(slots);
         }
+        [HttpGet("all")]
+        public async Task<ActionResult<PlaceDto>> GetAllPlaces()
+        {
+            return Ok(await _placeService.GetAllPlaces());
+        }
         [HttpPost]
         public async Task<IResult> CreatePlace([FromBody] PlaceCreateRequest request)
         {

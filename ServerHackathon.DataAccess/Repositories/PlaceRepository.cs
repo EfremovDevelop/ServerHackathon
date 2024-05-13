@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ServerHackathon.Core.DtoModels;
 using ServerHackathon.Core.Enums;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.DomainModel;
@@ -58,6 +59,15 @@ namespace ServerHackathon.DataAccess.Repositories
             };
             await _context.PlaceTypeList.AddAsync(placeType);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Place>> GetAllPlaces()
+        {
+            return await _context.Place
+                .AsNoTracking()
+                .Include(t => t.Types)
+                .Include(u => u.University)
+                .ToListAsync();
         }
     }
 }

@@ -107,5 +107,12 @@ namespace ServerHackathon.Application.Services
                 University = new UniversityDto { Id = place.UniversityId },
             };
         }
+
+        public async Task<List<PlaceDto>> GetAllPlaces()
+        {
+            var places = await _placeRepository.GetAllPlaces();
+
+            return places.Select(p => new PlaceDto(p)).ToList();
+        }
     }
 }
