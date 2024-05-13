@@ -17,42 +17,43 @@ namespace ServerHackathon.Application.Services
             _bookingRepository = bookingRepository;
             _placeRepository = placeRepository;
         }
-        public async Task<List<BookingSlotDto>> GetSlots(int placeId, DateTime day)
+        public async Task<List<BookingAvaliableSlotsDto>> GetSlots(DateTime day)
         {
             //Проверка, основаня логика поиска =(
             var listPlaces = await _placeRepository.GetByTypePlaces(PlaceTypeEnum.Сoworking);
-            var place = await _placeRepository.GetPlace(placeId);
-            if(place == null)
-            {
-                return null;
-            }
             // Получаем все ивенты и букинги для placeId
-            var listEvents = await _eventsRepository.GetAllEventsFromDay(placeId, day);
-            var listBookings = await _bookingRepository.GetAllBookingFromDay(placeId, day);
-            List<BookingSlotDto> busySlots = new List<BookingSlotDto>();
-            
-            // формируем список из DateTime
-            listEvents.ForEach(e=> busySlots.Add(new BookingSlotDto{from = e.Date, to = e.Date.AddMinutes(place.minuteStep)}));
-            listBookings.ForEach(e=> busySlots.Add(new BookingSlotDto{from = e.CheckIn, to = e.CheckOut}));
-            if(place.WorkFrom ==null || place.WorkTo ==null){
-                return null;
-            }
-            var timeFrom = (DateTime)place.WorkFrom;
-            var timeTo = (DateTime)place.WorkFrom;
-
-            var workTo = (DateTime)place.WorkTo;
-            var slots = new List<BookingSlotDto>();
-            do
+            var slots = new List<BookingAvaliableSlotsDto>();
+            foreach (var item in listPlaces)
             {
-                timeTo = timeTo.AddMinutes(place.minuteStep);
-                if(!busySlots.Any(e=> timeFrom.TimeOfDay < e.to.TimeOfDay && e.from.TimeOfDay < timeTo.TimeOfDay))
+                var listEvents = new List<Event>();
+                var listBookings = new List<Booking>();
+                listEvents.AddRange(await _eventsRepository.GetAllEventsFromDay(item.Id,day));
+                listBookings.AddRange(await _bookingRepository.GetAllBookingFromDay(item.Id,day));
+                List<BookingSlotDto> busySlots = new List<BookingSlotDto>();
+                listEvents.ForEach(e=> busySlots.Add(new BookingSlotDto{from = new DateTime(e.Date.Year, e.Date.Month, e.Date.Day, 00, 00, 00),
+                    to = new DateTime(e.Date.Year, e.Date.Month, e.Date.Day, 23, 59, 59)}));
+                listBookings.ForEach(e=> busySlots.Add(new BookingSlotDto{from = e.CheckIn, to = e.CheckOut}));
+
+                var timeFrom = (DateTime)item.WorkFrom;
+                var timeTo = (DateTime)item.WorkFrom;
+                
+                var workTo = (DateTime)item.WorkTo;
+                var slot = new BookingAvaliableSlotsDto{place = item, bookingSlot = new List<BookingSlotDto>()};
+                do
                 {
-                    slots.Add(new BookingSlotDto{from = timeFrom, to = timeTo});
-                }
-                timeFrom = timeFrom.AddMinutes(place.minuteStep);
-                if(timeFrom.TimeOfDay == workTo.TimeOfDay) //TODO: Сделать проверку на невозможность выхода за режим работы
-                break;
-            } while (timeFrom.TimeOfDay<=workTo.TimeOfDay);
+                    timeTo = timeTo.AddMinutes(item.minuteStep);
+                    if(timeTo.TimeOfDay > workTo.TimeOfDay)
+                        timeTo = workTo;
+                    if(!busySlots.Any(e=> timeFrom.TimeOfDay < e.to.TimeOfDay && e.from.TimeOfDay < timeTo.TimeOfDay))
+                    {
+                        slot.bookingSlot.Add(new BookingSlotDto{from = timeFrom, to = timeTo});
+                    }
+                    timeFrom = timeFrom.AddMinutes(item.minuteStep);
+                    if(timeFrom.TimeOfDay >= workTo.TimeOfDay)
+                    break;
+                } while (timeFrom.TimeOfDay<=workTo.TimeOfDay);
+                slots.Add(slot);
+            }
             return slots;
         }
 

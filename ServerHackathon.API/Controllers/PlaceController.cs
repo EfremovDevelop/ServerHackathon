@@ -18,7 +18,7 @@ namespace ServerHackathon.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<BookingSlotDto>>> GetAvailableSlots([FromBody] PlaceRequest placeRequest)
         {
-            var slots = await _placeService.GetSlots(placeRequest.placeId, placeRequest.data);
+            var slots = await _placeService.GetSlots(placeRequest.data);
             return Ok(slots);
         }
         [Authorize]
@@ -40,7 +40,7 @@ namespace ServerHackathon.API.Controllers
 
             await _placeService.CreatePlace(placeDto);
             return Results.Ok();
-            // добавить связь
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         }
 
         //[Authorize]
