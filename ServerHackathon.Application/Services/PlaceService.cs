@@ -53,5 +53,37 @@ namespace ServerHackathon.Application.Services
             } while (timeFrom.TimeOfDay<=workTo.TimeOfDay);
             return slots;
         }
+
+        public async Task CreatePlace(PlaceDto placeDto)
+        {
+            var place = new Place
+            {
+                Id = placeDto.Id,
+                Name = placeDto.Name,
+                Adress = placeDto.Adress,
+                Location = placeDto.Location,
+                Description = placeDto.Description,
+                Capacity = placeDto.Capacity,
+                WorkFrom = placeDto.WorkFrom,
+                WorkTo = placeDto.WorkTo,
+                minuteStep = placeDto.minuteStep,
+                UniversityId = placeDto.University.Id
+            };
+            await _placeRepository.CreatePlace(place);
+        }
+
+        //public async Task<bool> UpdatePlace(PlaceDto placeDto)
+        //{
+        //    var place = await _placeRepository.GetPlace(placeDto.Id);
+
+        //    if (place == null)
+        //        return false;
+        //    if (placeDto.Name != null)
+        //        place.Name = placeDto.Name;
+        //    if (placeDto.Description != null)
+        //        place.Description = placeDto.Description;
+        //    if (placeDto.Capacity != null)
+        //        place.Capacity = placeDto.Capacity;
+        //}
     }
 }

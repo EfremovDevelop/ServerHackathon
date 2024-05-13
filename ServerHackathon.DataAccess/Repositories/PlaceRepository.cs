@@ -1,9 +1,10 @@
+using Microsoft.EntityFrameworkCore;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.DomainModel;
 
 namespace ServerHackathon.DataAccess.Repositories
 {
-    public class PlaceRepository :IPlaceRepository
+    public class PlaceRepository : IPlaceRepository
     {
         private readonly DataContext _context;
         public PlaceRepository(DataContext context)
@@ -14,6 +15,28 @@ namespace ServerHackathon.DataAccess.Repositories
         public async Task<Place?> GetPlace(int id)
         {
             return await _context.Place.FindAsync(id);
+        }
+
+        public async Task CreatePlace(Place place)
+        {
+            await _context.Place.AddAsync(place);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdatePlace(Place place)
+        {
+            await _context.Place
+                .Where(i => i.Id == place.Id)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(p => p.Name, p => place.Name)
+                    .SetProperty(p => p.Description, p => place.Description)
+                    .SetProperty(p => p.Adress, p => place.Adress)
+                    .SetProperty(p => p.Location, p => place.Location)
+                    .SetProperty(p => p.minuteStep, p => p.minuteStep)
+                    .SetProperty(p => p.UniversityId, p => p.UniversityId)
+                    .SetProperty(p => p.WorkFrom, p => place.WorkFrom)
+                    .SetProperty(p => p.WorkTo, p => place.WorkTo));
+            await _context.SaveChangesAsync();
         }
     }
 }

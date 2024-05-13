@@ -79,7 +79,7 @@ public class EventsService : IEventsService
         {
             eventEntity.Date = updatedEvent.Date;
         }
-        if(updatedEvent.Thumbnail.Length >0)
+        if(updatedEvent.Thumbnail != null && updatedEvent.Thumbnail.Length >0)
             eventEntity.Thumbnail = updatedEvent.Thumbnail;
 
         bool isEventExists = await _eventsRepository.CheckEventExists(eventEntity.PlaceId, eventEntity.Date, eventEntity.Id);

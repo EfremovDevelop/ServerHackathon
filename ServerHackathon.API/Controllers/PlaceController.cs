@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerHackathon.API.Contracts;
 using ServerHackathon.Core.DtoModels;
@@ -20,5 +21,45 @@ namespace ServerHackathon.API.Controllers
             var slots = await _placeService.GetSlots(placeRequest.placeId, placeRequest.data);
             return Ok(slots);
         }
+        [Authorize]
+        [HttpPost]
+        public async Task<IResult> CreatePlace([FromBody] PlaceCreateRequest request)
+        {
+            var placeDto = new PlaceDto
+            {
+                Name = request.Name,
+                Adress = request.Adress,
+                Location = request.Location,
+                Description = request.Description,
+                Capacity = request.Capacity,
+                WorkFrom = request.WorkFrom,
+                WorkTo = request.WorkTo,
+                minuteStep = request.minuteStep,
+                University = new UniversityDto { Id = request.UniversityId }
+            };
+
+            await _placeService.CreatePlace(placeDto);
+            return Results.Ok();
+            // добавить связь
+        }
+
+        //[Authorize]
+        //[HttpPut]
+        //public async Task<IResult> UpdatePlace([FromBody] PlaceUpdateRequest request)
+        //{
+        //    var placeDto = new PlaceDto
+        //    {
+        //        Id = request.Id,
+        //        Name = request.Name,
+        //        Adress = request.Adress,
+        //        Location = request.Location,
+        //        Description = request.Description,
+        //        Capacity = request.Capacity,
+        //        WorkFrom = request.WorkFrom,
+        //        WorkTo = request.WorkTo,
+        //        minuteStep = request.minuteStep,
+        //        University = new UniversityDto { Id = request.UniversityId }
+        //    };
+        //}
     }
 }
