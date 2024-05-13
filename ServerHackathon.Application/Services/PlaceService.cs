@@ -1,4 +1,5 @@
 using ServerHackathon.Core.DtoModels;
+using ServerHackathon.Core.Enums;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.Core.Interfaces.Services;
 using ServerHackathon.DomainModel;
@@ -19,6 +20,7 @@ namespace ServerHackathon.Application.Services
         public async Task<List<BookingSlotDto>> GetSlots(int placeId, DateTime day)
         {
             //Проверка, основаня логика поиска =(
+            var listPlaces = await _placeRepository.GetByTypePlaces(PlaceTypeEnum.Сoworking);
             var place = await _placeRepository.GetPlace(placeId);
             if(place == null)
             {

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using ServerHackathon.Core.Enums;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.DomainModel;
+using System.Linq;
 
 namespace ServerHackathon.DataAccess.Repositories
 {
@@ -21,6 +23,13 @@ namespace ServerHackathon.DataAccess.Repositories
         {
             await _context.Place.AddAsync(place);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Place>> GetByTypePlaces(PlaceTypeEnum placeTypeEnum)
+        {
+            return await _context.Place
+                .Where(place => place.Types.Any(t => t.Id == (int)placeTypeEnum))
+                .ToListAsync();
         }
 
         public async Task UpdatePlace(Place place)
