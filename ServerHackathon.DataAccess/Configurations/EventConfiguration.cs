@@ -23,5 +23,9 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
         builder.HasOne(e => e.Status)
             .WithMany(s => s.Events)
             .HasForeignKey(e => e.StatusId);
+
+        builder.HasMany(e => e.Comments)
+                .WithOne(c => c.Event)
+                .HasForeignKey(c => c.EventId);
     }
 }

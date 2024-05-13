@@ -23,5 +23,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .UsingEntity<EventParticipant>(
                 r => r.HasOne<Event>().WithMany().HasForeignKey(p => p.EventId),
                 l => l.HasOne<User>().WithMany().HasForeignKey(r => r.UserId));
+
+        builder.HasMany(e => e.Comments)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId);
     }
 }

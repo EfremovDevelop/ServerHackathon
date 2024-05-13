@@ -53,6 +53,7 @@ service.AddScoped<IEventsService, EventsService>();
 service.AddScoped<IEventParticipantsService, EventParticipantsService>();
 service.AddScoped<IBookingService, BookingService>();
 service.AddScoped<IPlaceService, PlaceService>();
+service.AddScoped<IEventCommentService, EventCommentService>();
 
 service.AddHttpContextAccessor();
 
@@ -68,6 +69,7 @@ service.AddScoped<IEventsRepository, EventsRepository>();
 service.AddScoped<IEventParticipantRepository, EventParticipantRepository>();
 service.AddScoped<IBookingRepository, BookingRepository>();
 service.AddScoped<IPlaceRepository, PlaceRepository>();
+service.AddScoped<IEventCommentRepository, EventCommentRepository>();
 
 service.AddApiAuthentication(service.BuildServiceProvider().GetRequiredService<IOptions<JwtOptions>>());
 

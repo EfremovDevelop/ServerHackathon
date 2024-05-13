@@ -21,4 +21,6 @@ public class Event
     public virtual EventStatus Status { get; set; }
 
     public ICollection<User> Users { get; set; } = [];
+
+    public virtual ICollection<EventComment> Comments { get; set; } = [];
 }
