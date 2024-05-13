@@ -6,6 +6,9 @@ namespace ServerHackathon.Core.Interfaces.Services
     public interface IPlaceService
     {
         Task<List<BookingAvaliableSlotsDto>> GetSlots(DateTime day);
-        Task CreatePlace(PlaceDto place);
+        Task<int> CreatePlace(PlaceDto place);
+        Task AddTypeToPlace(int placeId, int typeId);
+        Task<PlaceDto?> GetPlace(int placeId);
+        Task UpdatePlace(Place place);
     }
 }

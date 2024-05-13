@@ -19,10 +19,11 @@ namespace ServerHackathon.DataAccess.Repositories
             return await _context.Place.FindAsync(id);
         }
 
-        public async Task CreatePlace(Place place)
+        public async Task<int> CreatePlace(Place place)
         {
             await _context.Place.AddAsync(place);
             await _context.SaveChangesAsync();
+            return place.Id;
         }
 
         public async Task<List<Place>> GetByTypePlaces(PlaceTypeEnum placeTypeEnum)
@@ -41,10 +42,21 @@ namespace ServerHackathon.DataAccess.Repositories
                     .SetProperty(p => p.Description, p => place.Description)
                     .SetProperty(p => p.Adress, p => place.Adress)
                     .SetProperty(p => p.Location, p => place.Location)
-                    .SetProperty(p => p.minuteStep, p => p.minuteStep)
-                    .SetProperty(p => p.UniversityId, p => p.UniversityId)
+                    .SetProperty(p => p.minuteStep, p => place.minuteStep)
+                    .SetProperty(p => p.UniversityId, p => place.UniversityId)
                     .SetProperty(p => p.WorkFrom, p => place.WorkFrom)
                     .SetProperty(p => p.WorkTo, p => place.WorkTo));
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddTypeToPlace(int placeId, int typeId)
+        {
+            var placeType = new PlaceTypeList
+            {
+                PlaceId = placeId,
+                PlaceTypeId = typeId
+            };
+            await _context.PlaceTypeList.AddAsync(placeType);
             await _context.SaveChangesAsync();
         }
     }

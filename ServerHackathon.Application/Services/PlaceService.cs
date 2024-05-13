@@ -57,7 +57,7 @@ namespace ServerHackathon.Application.Services
             return slots;
         }
 
-        public async Task CreatePlace(PlaceDto placeDto)
+        public async Task<int> CreatePlace(PlaceDto placeDto)
         {
             var place = new Place
             {
@@ -72,21 +72,40 @@ namespace ServerHackathon.Application.Services
                 minuteStep = placeDto.minuteStep,
                 UniversityId = placeDto.University.Id
             };
-            await _placeRepository.CreatePlace(place);
+            return await _placeRepository.CreatePlace(place);
         }
 
-        //public async Task<bool> UpdatePlace(PlaceDto placeDto)
-        //{
-        //    var place = await _placeRepository.GetPlace(placeDto.Id);
+        public async Task UpdatePlace(Place place)
+        {
+            await _placeRepository.UpdatePlace(place);
+        }
 
-        //    if (place == null)
-        //        return false;
-        //    if (placeDto.Name != null)
-        //        place.Name = placeDto.Name;
-        //    if (placeDto.Description != null)
-        //        place.Description = placeDto.Description;
-        //    if (placeDto.Capacity != null)
-        //        place.Capacity = placeDto.Capacity;
-        //}
+        public async Task AddTypeToPlace(int placeId, int typeId)
+        {
+            await _placeRepository.AddTypeToPlace(placeId, typeId);
+        }
+
+        public async Task<PlaceDto?> GetPlace(int placeId)
+        {
+            var place = await _placeRepository.GetPlace(placeId);
+
+            if (place == null)
+                return null;
+
+            return new PlaceDto
+            {
+                Id = place.Id,
+                Name = place.Name,
+                Adress = place.Adress,
+                Location = place.Location,
+                Description = place.Description,
+                Capacity = place.Capacity,
+                isBlocked = place.isBlocked,
+                minuteStep = place.minuteStep,
+                WorkFrom = place.WorkFrom,
+                WorkTo = place.WorkTo,
+                University = new UniversityDto { Id = place.UniversityId },
+            };
+        }
     }
 }
