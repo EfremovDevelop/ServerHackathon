@@ -11,5 +11,6 @@ namespace ServerHackathon.Core.Interfaces.Services
         Task<PlaceDto?> GetPlace(int placeId);
         Task UpdatePlace(Place place);
         Task<List<PlaceDto>> GetAllPlaces();
+        Task<List<PlaceDto>> GetAvaliableEventPlaces(DateTime day);
     }
 }

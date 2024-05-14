@@ -26,6 +26,11 @@ namespace ServerHackathon.API.Controllers
         {
             return Ok(await _placeService.GetAllPlaces());
         }
+        [HttpGet("events")]
+        public async Task<ActionResult<PlaceDto>> GetEventPlaces(DateTime date)
+        {
+            return Ok(await _placeService.GetAvaliableEventPlaces(date));
+        }
         [HttpPost]
         public async Task<IResult> CreatePlace([FromBody] PlaceCreateRequest request)
         {

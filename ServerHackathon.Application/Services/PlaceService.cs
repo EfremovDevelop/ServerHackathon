@@ -27,34 +27,53 @@ namespace ServerHackathon.Application.Services
             {
                 var listEvents = new List<Event>();
                 var listBookings = new List<Booking>();
-                listEvents.AddRange(await _eventsRepository.GetAllEventsFromDay(item.Id,day));
-                listBookings.AddRange(await _bookingRepository.GetAllBookingFromDay(item.Id,day));
+                listEvents.AddRange(await _eventsRepository.GetAllEventsFromDay(item.Id, day));
+                listBookings.AddRange(await _bookingRepository.GetAllBookingFromDay(item.Id, day));
                 List<BookingSlotDto> busySlots = new List<BookingSlotDto>();
-                listEvents.ForEach(e=> busySlots.Add(new BookingSlotDto{from = new DateTime(e.Date.Year, e.Date.Month, e.Date.Day, 00, 00, 00),
-                    to = new DateTime(e.Date.Year, e.Date.Month, e.Date.Day, 23, 59, 59)}));
-                listBookings.ForEach(e=> busySlots.Add(new BookingSlotDto{from = e.CheckIn, to = e.CheckOut}));
+                listEvents.ForEach(e => busySlots.Add(new BookingSlotDto { from = new DateTime(e.Date.Year, e.Date.Month, e.Date.Day, 00, 00, 00),
+                    to = new DateTime(e.Date.Year, e.Date.Month, e.Date.Day, 23, 59, 59) }));
+                listBookings.ForEach(e => busySlots.Add(new BookingSlotDto { from = e.CheckIn, to = e.CheckOut }));
 
                 var timeFrom = (DateTime)item.WorkFrom;
                 var timeTo = (DateTime)item.WorkFrom;
-                
+
                 var workTo = (DateTime)item.WorkTo;
-                var slot = new BookingAvaliableSlotsDto{place = item, bookingSlot = new List<BookingSlotDto>()};
+                var slot = new BookingAvaliableSlotsDto { place = item, bookingSlot = new List<BookingSlotDto>() };
                 do
                 {
                     timeTo = timeTo.AddMinutes(item.minuteStep);
-                    if(timeTo.TimeOfDay > workTo.TimeOfDay)
+                    if (timeTo.TimeOfDay > workTo.TimeOfDay)
                         timeTo = workTo;
-                    if(!busySlots.Any(e=> timeFrom.TimeOfDay < e.to.TimeOfDay && e.from.TimeOfDay < timeTo.TimeOfDay))
+                    if (!busySlots.Any(e => timeFrom.TimeOfDay < e.to.TimeOfDay && e.from.TimeOfDay < timeTo.TimeOfDay))
                     {
-                        slot.bookingSlot.Add(new BookingSlotDto{from = timeFrom, to = timeTo});
+                        slot.bookingSlot.Add(new BookingSlotDto { from = timeFrom, to = timeTo });
                     }
                     timeFrom = timeFrom.AddMinutes(item.minuteStep);
-                    if(timeFrom.TimeOfDay >= workTo.TimeOfDay)
-                    break;
-                } while (timeFrom.TimeOfDay<=workTo.TimeOfDay);
+                    if (timeFrom.TimeOfDay >= workTo.TimeOfDay)
+                        break;
+                } while (timeFrom.TimeOfDay <= workTo.TimeOfDay);
                 slots.Add(slot);
             }
             return slots;
+        }
+
+        public async Task<List<PlaceDto>> GetAvaliableEventPlaces(DateTime day)
+        {
+            var listPlaces = await _placeRepository.GetByTypePlaces(PlaceTypeEnum.Event);
+
+            var placesDtos = new List<PlaceDto>();
+            foreach (var place in listPlaces)
+            {
+                var listEvents = new List<Event>();
+                var listBookings = new List<Booking>();
+                listEvents.AddRange(await _eventsRepository.GetAllEventsFromDay(place.Id, day));
+                listBookings.AddRange(await _bookingRepository.GetAllBookingFromDay(place.Id, day));
+
+                if (!listEvents.Any() && !listEvents.Any())
+                    placesDtos.Add(new PlaceDto(place));
+            }
+
+            return placesDtos;
         }
 
         public async Task<int> CreatePlace(PlaceDto placeDto)

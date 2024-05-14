@@ -30,6 +30,8 @@ namespace ServerHackathon.DataAccess.Repositories
         public async Task<List<Place>> GetByTypePlaces(PlaceTypeEnum placeTypeEnum)
         {
             return await _context.Place
+                .Include(u => u.University)
+                .Include(t => t.Types)
                 .Where(place => place.Types.Any(t => t.Id == (int)placeTypeEnum))
                 .ToListAsync();
         }
