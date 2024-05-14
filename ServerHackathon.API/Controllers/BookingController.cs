@@ -21,7 +21,7 @@ namespace ServerHackathon.API.Controllers
 
        [Authorize]
        [HttpPost]
-       public async Task<IResult> Create([FromForm] BookingRequest bookingRequest)
+       public async Task<IResult> Create([FromBody] BookingRequest bookingRequest)
         {
             var userId = GetUserId();
 
