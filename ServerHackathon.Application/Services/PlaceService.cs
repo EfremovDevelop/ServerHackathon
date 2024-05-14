@@ -57,11 +57,11 @@ namespace ServerHackathon.Application.Services
             return slots;
         }
 
-        public async Task<List<PlaceDto>> GetAvaliableEventPlaces(DateTime day)
+        public async Task<List<Place>> GetAvaliableEventPlaces(DateTime day)
         {
             var listPlaces = await _placeRepository.GetByTypePlaces(PlaceTypeEnum.Event);
 
-            var placesDtos = new List<PlaceDto>();
+            var placesDtos = new List<Place>();
             foreach (var place in listPlaces)
             {
                 var listEvents = new List<Event>();
@@ -70,7 +70,7 @@ namespace ServerHackathon.Application.Services
                 listBookings.AddRange(await _bookingRepository.GetAllBookingFromDay(place.Id, day));
 
                 if (!listEvents.Any() && !listEvents.Any())
-                    placesDtos.Add(new PlaceDto(place));
+                    placesDtos.Add(place);
             }
 
             return placesDtos;
