@@ -37,7 +37,7 @@ public class EventsService : IEventsService
         {
             Id = Guid.NewGuid(),
             Name = newEvent.Name,
-            Thumbnail = newEvent.Thumbnail,
+            Thumbnail = "http://202.181.148.90:8080/static/uploads/events/EJLlpZJWsAIb-hh.jpg",
             Description = newEvent.Description,
             Date = newEvent.Date,
             PlaceId = newEvent.Place.Id,

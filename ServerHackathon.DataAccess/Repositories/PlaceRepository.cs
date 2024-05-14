@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ServerHackathon.Core.DtoModels;
 using ServerHackathon.Core.Enums;
 using ServerHackathon.Core.Interfaces.Repositories;
 using ServerHackathon.DomainModel;
-using System.Linq;
 
 namespace ServerHackathon.DataAccess.Repositories
 {
